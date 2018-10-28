@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require 'bcn_weather'
+require 'nokogiri'
+
+api = BcnWeather::WeatherApi.new(affiliate_id: 'zdo2c683olan')
+
+# url = 'http://api.tiempo.com/index.php?api_lang=es&localidad=7925434&affiliate_id=zdo2c683olan'
+# uri = URI(url)
+# response = Net::HTTP.get(uri)
+begin
+  response = api.get_city('79254')
+rescue ArgumentError => e
+  puts e.message
+else
+  doc = Nokogiri::XML(response)
+  vars = doc.css("var")
+  
+  min_temps = vars[0].css("data forecast").map { |forecast| Hash[forecast.to_a] }
+  # puts vars[0].css("data forecast")
+  puts min_temps
+end
