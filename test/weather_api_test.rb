@@ -18,7 +18,7 @@ class WeatherApiTest < Minitest::Test
     uri = @builder.call(api_lang: 'es', affiliate_id: 'some_id', localidad: '123')
     stub_request(:get, uri).to_return(status: 404)
 
-    assert_raises ArgumentError do
+    assert_raises BcnWeather::CityNotFound do
       @api.get_city('123')
     end
   end

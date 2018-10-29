@@ -21,7 +21,7 @@ class Client
   def get_resource(name, value)
     response = @conn.get '/', { api_lang: 'es', affiliate_id: @affiliate_id, name => value }
     unless response.status == 200
-      raise ArgumentError, "Wrong parameters"
+      raise BcnWeather::CityNotFound, "Wrong parameters"
     end
     response.body
   end
