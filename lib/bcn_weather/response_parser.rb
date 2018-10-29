@@ -24,6 +24,6 @@ class ResponseParser
   end
 
   def map_temps
-    proc { |forecast| {day: forecast["data_sequence"], forecast: forecast["value"]} }
+    proc { |forecast| { day: forecast["data_sequence"], forecast: forecast["value"] } }
   end
 end
