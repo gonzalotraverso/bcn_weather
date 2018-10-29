@@ -1,21 +1,25 @@
 #!/usr/bin/env ruby
 require 'bcn_weather'
-require 'nokogiri'
+require 'optionparser'
+options = {}
 
-api = BcnWeather::WeatherApi.new(affiliate_id: 'zdo2c683olan')
+OptionParser.new do |opts|
+  opts.banner = "Usage: eltiempo [option] [city-name]"
+  opts.on("-t", "--today CITY", "Prints today's forecast for the given city") do |city|
+    options = { method: :today, city: city }
+  end
+  opts.on("-x", "--avg_max CITY", "Prints the average maximum temperature for the given city") do |city|
+    options = { method: :avg_max, city: city }
+  end
+  opts.on("-n", "--avg_min CITY", "Prints the average minimum temperature for the given city") do |city|
+    options = { method: :avg_min, city: city }
+  end
+end.parse!
 
-# url = 'http://api.tiempo.com/index.php?api_lang=es&localidad=7925434&affiliate_id=zdo2c683olan'
-# uri = URI(url)
-# response = Net::HTTP.get(uri)
 begin
-  response = api.get_city('79254')
-rescue ArgumentError => e
-  puts e.message
-else
-  doc = Nokogiri::XML(response)
-  vars = doc.css("var")
-  
-  min_temps = vars[0].css("data forecast").map { |forecast| Hash[forecast.to_a] }
-  # puts vars[0].css("data forecast")
-  puts min_temps
+  response = BcnWeather::Handler.new(action: options[:method], city: options[:city]).call
+rescue BcnWeather::CityNotFound
+  puts "city not found"  
 end
+
+puts response

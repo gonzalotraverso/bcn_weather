@@ -19,7 +19,9 @@ class Client
 
   private
   def get_resource(name, value)
-    response = @conn.get '/', { api_lang: 'es', affiliate_id: @affiliate_id, name => value }
+    response = @conn.get '/', { api_lang: 'es', affiliate_id: @affiliate_id, name => value } do |req|
+      req.headers['Content-Type'] = 'text/xml'
+    end
     unless response.status == 200
       raise BcnWeather::CityNotFound, "Wrong parameters"
     end
