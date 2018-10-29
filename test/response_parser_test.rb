@@ -10,7 +10,6 @@ class RseponseParserTest < Minitest::Test
 
     data = @parser.parse_cities(doc)
 
-    assert(data.size == 35)
     assert_equal(data[0][:name], 'Abrera')
     assert_equal(data[0][:id], "1182")
   end

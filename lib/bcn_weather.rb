@@ -22,15 +22,13 @@ module BcnWeather
 
     def call
       cities = get_cities
-      puts cities
       city = find_city(cities)
       get_forecast_for(city)
     end
 
     private
     def get_cities
-      doc = @api.get_cities
-      puts doc
+      doc = File.open(File.dirname(__FILE__) + "/bcn_weather/data/cities.xml")
       @parser.parse_cities(doc)
     end
 
