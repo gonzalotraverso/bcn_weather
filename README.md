@@ -22,7 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+Usage: eltiempo [option] [city-name]
+    -t, --today CITY                 Prints today's forecast for the given city
+    -x, --avg_max CITY               Prints the average maximum temperature for the given city
+    -n, --avg_min CITY               Prints the average minimum temperature for the given city
+```
 
 ## Development
 
