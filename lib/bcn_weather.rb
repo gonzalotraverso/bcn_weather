@@ -16,14 +16,18 @@ module BcnWeather
       @action = action
       @city = city
       @api = Client.new(affiliate_id: ENV["AFFILIATE_ID"])
-      puts ENV["AFFILIATE_ID"]
       @parser = ResponseParser.new
     end
 
     def call
       cities = get_cities
       city = find_city(cities)
-      get_forecast_for(city)
+      forecast = get_forecast_for(city)
+      if [:week_max_avg,:week_min_avg].include?(@action)
+        puts "The average temperature for the week is #{forecast}º"
+      else
+        puts "The temperature in #{@city} is between #{forecast[:min]}º and #{forecast[:max]}º"
+      end
     end
 
     private

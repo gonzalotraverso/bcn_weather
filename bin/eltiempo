@@ -9,17 +9,17 @@ OptionParser.new do |opts|
     options = { method: :today, city: city }
   end
   opts.on("-x", "--avg_max CITY", "Prints the average maximum temperature for the given city") do |city|
-    options = { method: :avg_max, city: city }
+    options = { method: :week_max_avg, city: city }
   end
   opts.on("-n", "--avg_min CITY", "Prints the average minimum temperature for the given city") do |city|
-    options = { method: :avg_min, city: city }
+    options = { method: :week_min_avg, city: city }
   end
 end.parse!
 
 begin
   response = BcnWeather::Handler.new(action: options[:method], city: options[:city]).call
 rescue BcnWeather::CityNotFound
-  puts "city not found"  
+  puts "#{options[:city]}: City not found, please try again"  
 end
 
 puts response
